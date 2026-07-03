@@ -104,6 +104,15 @@ public void changePin(String newPin) {
     System.out.println("Account deactivated successfully.");
 }
 
+
+ public boolean verifyPin(String pin) {
+    return this.pin.equals(pin);
+}
+
+public boolean verifyAccountNumber(String accountNumber) {
+    return this.accountNumber.equals(accountNumber);
+}
+
   
 
 
