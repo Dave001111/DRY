@@ -42,7 +42,7 @@ public class AccountTest {
     accountNumber = input.nextLine();
        }
 
-    while (!accountNumber.equals(account.getAccountNumber())) {
+    while (!account.verifyAccountNumber(accountNumber)) {
     System.out.println("Account number not found.");
     System.out.print("Re enter your Account Number: ");
     accountNumber = input.nextLine();
@@ -66,7 +66,7 @@ public class AccountTest {
         pin = input.nextLine();
     }
 
-    while (!pin.equals(account.getPin())) {
+    while (!account.verifyPin(pin)) {
         System.out.println("Incorrect PIN.");
         System.out.print("Enter Pin again: ");
         pin = input.nextLine();
@@ -92,7 +92,7 @@ public class AccountTest {
      }
 
     input.nextLine();
-   return amount;
+    return amount;
 
       }
 
