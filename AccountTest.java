@@ -2,101 +2,7 @@ import java.util.Scanner;
 
 public class AccountTest {
 
-
-    public static String getValidBvn(Scanner input) {
-    System.out.print("Enter Your BVN: ");
-    String bvn = input.nextLine();
-
-    while (bvn.length() < 11 || bvn.length() > 11) {
-    System.out.println("Invalid Bvn. BVN must be not be less or higher than 11 digits.");
-    System.out.print("Enter Your BVN: ");
-    bvn = input.nextLine();
-        }
-
-       return bvn;
-   }
-
-
-   public static String setUpPin(Scanner input) {
-   System.out.print("Set-up a 4-digit PIN: ");
-   String pin = input.nextLine();
-
-   while (pin.length() < 4 || pin.length() > 4) {
-   System.out.println("Invalid pin. PIN should not be less or higher than 4 digits");
-   System.out.print("Re enter your pin: ");
-   pin = input.nextLine();
-    }
-
-    return pin;
-  }
-
-
-   public static void verifyAccountNumber(Scanner input, Account account) {
-
-    System.out.print("Enter your Account Number: ");
-    String accountNumber = input.nextLine();
-
-    while (accountNumber.length() < 10 || accountNumber.length() > 10) {
-    System.out.println("Invalid Account number. Account Number should not be less or higher than 10 digits");
-    System.out.print("Re enter your Account Number: ");
-    accountNumber = input.nextLine();
-       }
-
-    while (!account.verifyAccountNumber(accountNumber)) {
-    System.out.println("Account number not found.");
-    System.out.print("Re enter your Account Number: ");
-    accountNumber = input.nextLine();
-
-    while (accountNumber.length() < 10 || accountNumber.length() > 10) {
-    System.out.println("Invalid Account number. Account Number should not be less or higher than 10 digits");
-    System.out.print("Re enter your Account Number: ");
-    accountNumber = input.nextLine();
-          }
-      }
-   }
-
-   public static void verifyPin(Scanner input, Account account) {
-
-    System.out.print("Enter your pin: ");
-    String pin = input.nextLine();
-
-    while (pin.length() < 4 || pin.length() > 4) {
-        System.out.println("Invalid Pin. PIN should not be less or higher than 4 digits");
-        System.out.print("Re enter your pin: ");
-        pin = input.nextLine();
-    }
-
-    while (!account.verifyPin(pin)) {
-        System.out.println("Incorrect PIN.");
-        System.out.print("Enter Pin again: ");
-        pin = input.nextLine();
-
-        while (pin.length() < 4 || pin.length() > 4) {
-            System.out.println("Invalid Pin. PIN should not be less or higher than 4 digits");
-            System.out.print("Re enter your pin: ");
-            pin = input.nextLine();
-          }
-      }
-   }
-
-
-    public static double getAmount(Scanner input) {
-
-    System.out.print("Enter amount: ");
-    double amount = input.nextDouble();
-
-    while (amount <= 0.0) {
-    System.out.println("Amount must be higher than 0");
-    System.out.print("Enter amount again: ");
-    amount = input.nextDouble();
-     }
-
-    input.nextLine();
-    return amount;
-
-      }
-
-
+   
   public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
@@ -134,10 +40,26 @@ public class AccountTest {
        String fullName = input.nextLine();
        account.setFullName(fullName);
 
-       String bvn = getValidBvn(input);
+       System.out.print("Enter Your BVN: ");
+       String bvn = input.nextLine();
+
+       while (!account.validateBvn(bvn)) {
+       System.out.println("Invalid BVN. BVN must not be less or higher than 11 digits.");
+       System.out.print("Re Enter Your BVN: ");
+       bvn = input.nextLine();
+          }
+
        account.setBvn(bvn);
 
-       String pin = setUpPin(input);
+       System.out.print("Set-up a 4-digit PIN: ");
+       String pin = input.nextLine();
+
+       while (!account.validatePin(pin)) {
+       System.out.println("Invalid PIN. PIN should not be less or higher than 4 digits.");
+       System.out.print("Re enter your PIN: ");
+       pin = input.nextLine();
+         }
+
        account.setPin(pin);
 
        System.out.println("\nAccount Created Successfully");
@@ -156,12 +78,49 @@ public class AccountTest {
        System.out.println("========== Deposit Money ==========");
        System.out.println("--------------------------------------");
 
-       verifyAccountNumber(input, account);
-       verifyPin(input, account);
+       System.out.print("Enter your Account Number: ");
+       String accountNumber = input.nextLine();
 
-       double amount = getAmount(input);
+       while (!account.validateAccountNumber(accountNumber)) {
+       System.out.println("Invalid Account Number. Account Number must be exactly 10 digits.");
+       System.out.print("Re enter your Account Number: ");
+       accountNumber = input.nextLine();
+         }
+
+       while (!account.verifyAccountNumber(accountNumber)) {
+       System.out.println("Account number not found.");
+       System.out.print("Re enter your Account Number: ");
+       accountNumber = input.nextLine();
+        }
+
+      System.out.print("Enter your PIN: ");
+      pin = input.nextLine();
+
+      while (!account.validatePin(pin)) {
+      System.out.println("Invalid PIN. PIN must be exactly 4 digits.");
+      System.out.print("Re enter your PIN: ");
+      pin = input.nextLine();
+        }
+
+      while (!account.verifyPin(pin)) {
+      System.out.println("Incorrect PIN.");
+      System.out.print("Enter your PIN again: ");
+      pin = input.nextLine();
+        }
+
+      System.out.print("Enter amount: ");
+      double amount = input.nextDouble();
+
+      while (!account.validateAmount(amount)) {
+      System.out.println("Amount must be higher than 0.");
+      System.out.print("Enter amount again: ");
+      amount = input.nextDouble();
+        }
+
+       input.nextLine();
 
        account.deposit(amount);
+
 
        System.out.println("\nMoney Deposited Successfully");
        System.out.println("================================");
@@ -174,43 +133,115 @@ public class AccountTest {
 
           case 3:
 
-        System.out.println("========== Transfer ==========");
-	System.out.println("---------------------------------");
+       System.out.println("========== Transfer ==========");
+       System.out.println("---------------------------------");
 
-	verifyAccountNumber(input, account);
+       System.out.print("Enter your Account Number: ");
+       accountNumber = input.nextLine();
 
-	System.out.print("Enter The Receiver's Account Number: ");
-	String receiverAccount = input.nextLine();
+       while (!account.validateAccountNumber(accountNumber)) {
+       System.out.println("Invalid Account Number. Account Number must be exactly 10 digits.");
+       System.out.print("Re enter your Account Number: ");
+       accountNumber = input.nextLine();
+           }
 
-	while (receiverAccount.length() < 10 || receiverAccount.length() > 10) {
-        System.out.println("Invalid Account number. Account Number should not be less or higher than 10 digits");
-        System.out.print("Re enter Receiver Account Number: ");
-        receiverAccount = input.nextLine();
-          }
+       while (!account.verifyAccountNumber(accountNumber)) {
+       System.out.println("Account number not found.");
+       System.out.print("Re enter your Account Number: ");
+       accountNumber = input.nextLine();
+         }
 
-       amount = getAmount(input);
+      System.out.print("Enter The Receiver's Account Number: ");
+      String receiverAccount = input.nextLine();
 
-       verifyPin(input, account);
+      while (!account.validateAccountNumber(receiverAccount)) {
+      System.out.println("Invalid Account Number. Account Number must be exactly 10 digits.");
+      System.out.print("Re enter Receiver Account Number: ");
+      receiverAccount = input.nextLine();
+        }
 
-       account.transfer(amount);
+     System.out.print("Enter amount: ");
+     amount = input.nextDouble();
 
-       break;
+    while (!account.validateAmount(amount)) {
+    System.out.println("Amount must be higher than 0.");
+    System.out.print("Enter amount again: ");
+     amount = input.nextDouble();
+       }
 
+    input.nextLine();
 
+    System.out.print("Enter your PIN: ");
+    pin = input.nextLine();
+
+    while (!account.validatePin(pin)) {
+    System.out.println("Invalid PIN. PIN must be exactly 4 digits.");
+    System.out.print("Re enter your PIN: ");
+    pin = input.nextLine();
+       }
+
+    while (!account.verifyPin(pin)) {
+    System.out.println("Incorrect PIN.");
+    System.out.print("Enter your PIN again: ");
+    pin = input.nextLine();
+      }
+
+    account.transfer(amount);
+
+    break;
+
+	
          case 4:
 
      System.out.println("========== Withdrawal ==========");
      System.out.println("---------------------------------");
 
-     verifyAccountNumber(input, account);
 
-     verifyPin(input, account);
+    System.out.print("Enter your Account Number: ");
+    accountNumber = input.nextLine();
 
-     amount = getAmount(input);
+    while (!account.validateAccountNumber(accountNumber)) {
+    System.out.println("Invalid Account Number. Account Number must be exactly 10 digits.");
+    System.out.print("Re enter your Account Number: ");
+    accountNumber = input.nextLine();
+       }
 
-     account.withdraw(amount);
+    while (!account.verifyAccountNumber(accountNumber)) {
+    System.out.println("Account number not found.");
+    System.out.print("Re enter your Account Number: ");
+    accountNumber = input.nextLine();
+      }
 
-      break;
+    System.out.print("Enter your PIN: ");
+    pin = input.nextLine();
+
+    while (!account.validatePin(pin)) {
+    System.out.println("Invalid PIN. PIN must be exactly 4 digits.");
+    System.out.print("Re enter your PIN: ");
+    pin = input.nextLine();
+      }
+
+    while (!account.verifyPin(pin)) {
+    System.out.println("Incorrect PIN.");
+    System.out.print("Enter your PIN again: ");
+    pin = input.nextLine();
+       }
+
+    System.out.print("Enter amount: ");
+    amount = input.nextDouble();
+
+    while (!account.validateAmount(amount)) {
+    System.out.println("Amount must be higher than 0.");
+    System.out.print("Enter amount again: ");
+    amount = input.nextDouble();
+      }
+
+    input.nextLine();
+
+    account.withdraw(amount);
+
+    break;
+     
 
 
          case 5:
@@ -218,22 +249,49 @@ public class AccountTest {
     System.out.println("========== Change Pin ==========");
     System.out.println("---------------------------------");
 
-    verifyAccountNumber(input, account);
+    
+    System.out.print("Enter your Account Number: ");
+    accountNumber = input.nextLine();
 
-    verifyPin(input, account);
+    while (!account.validateAccountNumber(accountNumber)) {
+    System.out.println("Invalid Account Number. Account Number must be exactly 10 digits.");
+    System.out.print("Re enter your Account Number: ");
+    accountNumber = input.nextLine();
+       }
 
-    System.out.print("Enter Your  New Pin: ");
+    while (!account.verifyAccountNumber(accountNumber)) {
+    System.out.println("Account number not found.");
+    System.out.print("Re enter your Account Number: ");
+    accountNumber = input.nextLine();
+      }
+
+    System.out.print("Enter your PIN: ");
+    pin = input.nextLine();
+
+    while (!account.validatePin(pin)) {
+    System.out.println("Invalid PIN. PIN must be exactly 4 digits.");
+    System.out.print("Re enter your PIN: ");
+    pin = input.nextLine();
+      }
+
+    while (!account.verifyPin(pin)) {
+    System.out.println("Incorrect PIN.");
+    System.out.print("Enter your PIN again: ");
+    pin = input.nextLine();
+      }
+
+    System.out.print("Enter Your New PIN: ");
     String newPin = input.nextLine();
 
-    while (newPin.length() < 4 || newPin.length() > 4) {
+    while (!account.validatePin(newPin)) {
     System.out.println("Invalid PIN. PIN must be exactly 4 digits.");
     System.out.print("Re enter your new PIN: ");
     newPin = input.nextLine();
-     }
+      }
 
     account.changePin(newPin);
 
-     break;
+    break;
 
 
         case 6:
@@ -241,20 +299,49 @@ public class AccountTest {
      System.out.println("========== Deactivate Account ==========");
      System.out.println("-----------------------------------------");
 
-     verifyAccountNumber(input, account);
 
-     verifyPin(input, account);
+    System.out.print("Enter your Account Number: ");
+    accountNumber = input.nextLine();
+
+    while (!account.validateAccountNumber(accountNumber)) {
+    System.out.println("Invalid Account Number. Account Number must be exactly 10 digits.");
+    System.out.print("Re enter your Account Number: ");
+    accountNumber = input.nextLine();
+      }
+
+    while (!account.verifyAccountNumber(accountNumber)) {
+    System.out.println("Account number not found.");
+    System.out.print("Re enter your Account Number: ");
+    accountNumber = input.nextLine();
+      }
+
+    System.out.print("Enter your PIN: ");
+    pin = input.nextLine();
+
+    while (!account.validatePin(pin)) {
+    System.out.println("Invalid PIN. PIN must be exactly 4 digits.");
+    System.out.print("Re enter your PIN: ");
+    pin = input.nextLine();
+      }
+
+    while (!account.verifyPin(pin)) {
+    System.out.println("Incorrect PIN.");
+    System.out.print("Enter your PIN again: ");
+    pin = input.nextLine();
+      }
 
     System.out.print("Do you want to deactivate your account? (yes/no): ");
     String deactivate = input.nextLine();
 
     if (deactivate.equalsIgnoreCase("yes")) {
-    account.deactivate();
-    } else {
-    System.out.println("Account deactivation cancelled.");
-     }
+        account.deactivate();
+     } else {
+        System.out.println("Account deactivation cancelled.");
+    }
 
-     break;
+    break;
+
+   
 
    }
 
