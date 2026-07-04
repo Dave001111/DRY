@@ -107,11 +107,27 @@ public void changePin(String newPin) {
 
  public boolean verifyPin(String pin) {
     return this.pin.equals(pin);
+ }
+
+ public boolean verifyAccountNumber(String accountNumber) {
+     return this.accountNumber.equals(accountNumber);
+  }
+
+  public boolean validateBvn(String bvn) {
+     return bvn.length() == 11;
+  }
+
+public boolean validatePin(String pin) {
+    return pin.length() == 4;
+ }
+
+public boolean validateAccountNumber(String accountNumber) {
+    return accountNumber.length() == 10;
 }
 
-public boolean verifyAccountNumber(String accountNumber) {
-    return this.accountNumber.equals(accountNumber);
-}
+public boolean validateAmount(double amount) {
+    return amount > 0;
+ }
 
   
 
